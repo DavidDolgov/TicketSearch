@@ -21,7 +21,7 @@ public class TicketManager {
         return ticket.getArrivalAirport().contains(search);
     }
 
-    public Ticket[] searchBy(String from, String to) {
+    public Ticket[] searchBy(String from, String to, String speedOrPrice) {
         Ticket[] result = new Ticket[0];
         for (Ticket ticket : repository.findAll()) {
             if (matchesA(ticket, from)) {
@@ -32,9 +32,14 @@ public class TicketManager {
                     }
                     tmp[tmp.length - 1] = ticket;
                     result = tmp;
-                    Arrays.sort(result);
                 }
             }
+        }
+        if (speedOrPrice.equals("fast")) {
+            TicketByTimeComparator ticketComparator = new TicketByTimeComparator();
+            Arrays.sort(result, ticketComparator);
+        } else {
+            Arrays.sort(result);
         }
         return result;
     }
