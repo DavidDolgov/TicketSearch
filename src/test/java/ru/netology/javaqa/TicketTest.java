@@ -10,7 +10,7 @@ public class TicketTest {
     Ticket ticket3 = new Ticket(3, 44000, "DME", "DXB", 630);
     Ticket ticket4 = new Ticket(4, 3000, "HND", "ICL", 120);
     Ticket ticket5 = new Ticket(5, 7000, "HKG", "PVG", 210);
-    Ticket ticket6 = new Ticket(6, 9000, "DME", "AMS", 350);
+    Ticket ticket6 = new Ticket(6, 9000, "DME", "AMS", 400);
     Ticket ticket7 = new Ticket(7, 11000, "DEN", "KUL", 400);
     Ticket ticket8 = new Ticket(8, 10600, "CTU", "LAS", 510);
     Ticket ticket9 = new Ticket(9, 13000, "BCN", "BOM", 490);
@@ -61,7 +61,7 @@ public class TicketTest {
         String to = "LHR";
 
         Ticket[] expected = {ticket1};
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] actual = manager.searchBy(from, to, "price");
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -72,7 +72,7 @@ public class TicketTest {
         String to = "LHR";
 
         Ticket[] expected = {};
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] actual = manager.searchBy(from, to, "fast");
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -83,18 +83,18 @@ public class TicketTest {
         String to = "NUN";
 
         Ticket[] expected = {};
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] actual = manager.searchBy(from, to, "price");
 
         Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void shouldManagerSearchBy4InAscendingOrder() {
+    public void shouldManagerSearchBy4InAscendingOrderOfSpeed() {
         String from = "D";
         String to = "L";
 
-        Ticket[] expected = {ticket1, ticket4, ticket7, ticket2};
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] expected = {ticket4, ticket7, ticket1, ticket2};
+        Ticket[] actual = manager.searchBy(from, to, "fast");
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -104,8 +104,8 @@ public class TicketTest {
         String from = " ";
         String to = "LHR";
 
-        Ticket[] expected = { };
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.searchBy(from, to, "price");
 
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -115,19 +115,30 @@ public class TicketTest {
         String from = "DME";
         String to = " ";
 
-        Ticket[] expected = { };
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.searchBy(from, to, "fast");
 
         Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void shouldManagerSearchBy7InAscendingOrder() {
+    public void shouldManagerSearchBy7InAscendingOrderOfSpeed() {
+        String from = "";
+        String to = "";
+
+        Ticket[] expected = {ticket4, ticket5, ticket6, ticket7, ticket1, ticket9, ticket8, ticket2, ticket10, ticket3};
+        Ticket[] actual = manager.searchBy(from, to, "fast");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldManagerSearchBy8InAscendingOrder() {
         String from = "";
         String to = "";
 
         Ticket[] expected = {ticket1, ticket4, ticket5, ticket6, ticket8, ticket7, ticket9, ticket10, ticket2, ticket3};
-        Ticket[] actual = manager.searchBy(from, to);
+        Ticket[] actual = manager.searchBy(from, to, "price");
 
         Assertions.assertArrayEquals(expected, actual);
     }
